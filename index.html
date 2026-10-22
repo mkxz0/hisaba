@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f8f7f4">
+    <meta name="description" content="أنشئ فاتورة احترافية خلال دقائق، واحفظها أو اطبعها PDF مجانًا.">
+    <title>حِسبة — فواتيرك ببساطة</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="حِسبة، الصفحة الرئيسية">
+        <span class="brand-mark" aria-hidden="true">ح</span>
+        <span>حِسبة</span>
+      </a>
+      <span class="topbar-note">أداة مجانية للمستقلين وأصحاب المشاريع</span>
+      <button class="button button-quiet" id="clear-button" type="button">فاتورة جديدة</button>
+    </header>
+
+    <main class="layout">
+      <section class="intro">
+        <p class="eyebrow">شغلك يستاهل تنظيمًا أفضل</p>
+        <h1>فاتورة واضحة.<br><span>وشغل يمشي.</span></h1>
+        <p class="intro-copy">أنشئ فاتورة مرتبة لعميلك في دقائق. أضف البنود، راجع الإجمالي، ثم اطبعها أو احفظها PDF.</p>
+        <div class="trust-points">
+          <span><span aria-hidden="true">✓</span> بدون تسجيل حساب</span>
+          <span><span aria-hidden="true">✓</span> بياناتك تبقى على جهازك</span>
+        </div>
+        <div class="tip-card">
+          <span class="tip-icon" aria-hidden="true">✳</span>
+          <div><strong>نصيحة صغيرة</strong><p>أضف بيانات نشاطك مرة واحدة، وستبقى محفوظة تلقائيًا على هذا الجهاز.</p></div>
+        </div>
+      </section>
+
+      <section class="invoice-card" aria-labelledby="invoice-heading">
+        <div class="card-heading">
+          <div>
+            <p class="eyebrow">مساحة العمل</p>
+            <h2 id="invoice-heading">إنشاء فاتورة</h2>
+          </div>
+          <span class="draft-badge"><span class="status-dot"></span> مسودة</span>
+        </div>
+
+        <form id="invoice-form">
+          <div class="form-section">
+            <h3>بيانات الفاتورة</h3>
+            <div class="form-grid">
+              <label class="field">اسم نشاطك
+                <input name="business" autocomplete="organization" placeholder="مثال: استوديو نون">
+              </label>
+              <label class="field">البريد الإلكتروني
+                <input name="email" type="email" autocomplete="email" placeholder="hello@example.com">
+              </label>
+              <label class="field">اسم العميل
+                <input name="client" autocomplete="name" placeholder="اسم العميل أو الشركة">
+              </label>
+              <label class="field">رقم الفاتورة
+                <input name="invoiceNumber" placeholder="INV-001">
+              </label>
+              <label class="field">تاريخ الإصدار
+                <input name="issueDate" type="date">
+              </label>
+              <label class="field">تاريخ الاستحقاق
+                <input name="dueDate" type="date">
+              </label>
+            </div>
+          </div>
+
+          <div class="form-section items-section">
+            <div class="section-title-row">
+              <h3>تفاصيل الفاتورة</h3>
+              <button class="text-button" id="add-item" type="button">＋ إضافة بند</button>
+            </div>
+            <div class="items-head" aria-hidden="true">
+              <span>الوصف</span><span>الكمية</span><span>السعر</span><span></span>
+            </div>
+            <div id="items-list" class="items-list"></div>
+          </div>
+
+          <div class="form-grid lower-fields">
+            <label class="field">العملة
+              <select name="currency">
+                <option value="SAR">ريال سعودي (ر.س)</option>
+                <option value="AED">درهم إماراتي (د.إ)</option>
+                <option value="EGP">جنيه مصري (ج.م)</option>
+                <option value="KWD">دينار كويتي (د.ك)</option>
+                <option value="USD">دولار أمريكي ($)</option>
+                <option value="EUR">يورو (€)</option>
+              </select>
+            </label>
+            <label class="field">الضريبة (%)
+              <input name="taxRate" type="number" min="0" max="100" step="0.01" value="0" inputmode="decimal">
+            </label>
+          </div>
+
+          <label class="field notes-field">ملاحظات للعميل
+            <textarea name="notes" rows="2" placeholder="شكرًا لثقتك بنا!"></textarea>
+          </label>
+
+          <div class="total-box" aria-live="polite">
+            <div><span>المجموع الفرعي</span><strong id="subtotal">٠٫٠٠</strong></div>
+            <div><span>الضريبة (<span id="tax-rate-label">0</span>٪)</span><strong id="tax-total">٠٫٠٠</strong></div>
+            <div class="grand-total"><span>الإجمالي المستحق</span><strong id="grand-total">٠٫٠٠</strong></div>
+          </div>
+
+          <div class="form-footer">
+            <span class="save-status" id="save-status" role="status">يُحفظ تلقائيًا على جهازك</span>
+            <button class="button button-primary" type="button" id="print-button"><span aria-hidden="true">↧</span> طباعة / حفظ PDF</button>
+          </div>
+        </form>
+      </section>
+    </main>
+    <footer>صُنع بعناية لأصحاب الشغل الحر <span aria-hidden="true">✳</span></footer>
+    <div id="print-invoice" class="print-invoice" aria-hidden="true"></div>
+  </body>
+</html>
